@@ -12,7 +12,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session= request.getSession();
-        if (session.getAttribute("name")!=null){
+        if (session.getAttribute("user")!=null){
             try{
                 response.sendRedirect("/user/hello.jsp");
             } catch(Exception e){
@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         String user = req.getParameter("login");
         String password = req.getParameter("password");
         if(user == null || !Users.getInstance().getUsers().contains(user) || password == null || password.isEmpty()) {
-            req.getRequestDispatcher("/user/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
         else {
             req.getSession().setAttribute("user", "user");

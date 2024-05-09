@@ -2,26 +2,30 @@ package com.example.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/user/*"})
-public class AuthFilter extends HttpFilter{
+@WebFilter(servletNames = "LoginServlet")
+public class AuthFilter implements Filter {
+    private static final String LOGIN_PAGE = "/login.jsp";
 
     @Override
-    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
-        HttpSession session = request.getSession();
-        if (session.getAttribute("user") == null) {
-            try {
-                response.sendRedirect("/login.jsp");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                chain.doFilter(request, response);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) servletRequest;
+        HttpServletResponse resp = (HttpServletResponse) servletResponse;
+        String path = req.getRequestURI();
+        if(path != null && path.contains("/user/")) {
+            req.getSession().getAttribute("user");
         }
+        else {
+            resp.sendRedirect(LOGIN_PAGE);
+        }
+        filterChain.doFilter(req, resp);
+    }
+
+    @Override
+    public void destroy() {
+        Filter.super.destroy();
     }
 }
