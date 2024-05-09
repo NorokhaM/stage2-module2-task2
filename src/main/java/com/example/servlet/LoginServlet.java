@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
         }
         else{
             try{
-                response.sendRedirect("/user/login.jsp");
+                response.sendRedirect("/login.jsp");
             } catch(Exception e){
                 e.printStackTrace();
             }
