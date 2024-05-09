@@ -5,7 +5,8 @@ import javax.servlet.http.*;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet{
-    protected void destroy(HttpServletRequest request, HttpServletResponse response){
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response){
         HttpSession session=request.getSession();
         session.removeAttribute("user");
         session.invalidate();

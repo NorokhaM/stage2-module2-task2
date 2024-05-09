@@ -1,12 +1,21 @@
 package com.example.listener;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.http.*;
 import java.time.LocalDateTime;
 
-public class ContextListener extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        ServletContext context = getServletContext();
-        context.setAttribute("ServletTimeInit", LocalDateTime.now());
+public class ContextListener implements ServletContextListener {
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        ServletContext context = sce.getServletContext();
+        context.setAttribute("startTime", LocalDateTime.now());
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        ServletContext context = sce.getServletContext();
+        context.removeAttribute("startTime");
     }
 }

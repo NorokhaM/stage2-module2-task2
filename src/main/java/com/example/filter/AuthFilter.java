@@ -6,7 +6,9 @@ import javax.servlet.http.*;
 
 @WebFilter(urlPatterns = {"/user/*"})
 public class AuthFilter extends HttpFilter{
-    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
+
+    @Override
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
         HttpSession session = request.getSession();
         if (session.getAttribute("user") == null) {
             try {
